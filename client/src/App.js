@@ -1,19 +1,26 @@
-import ResponsiveAppBar from './components/Navbar';
-import JokeList from './components/Jokelist';
+import { useState } from "react";
+import Navbar from "./components/Navbar";
+import JokeCardList from "./components/JokeCardList";
+import AddJoke from "./components/AddJoke";
+import AuthModal from "./components/AuthModal";
 
-import './App.css';
+import "./App.css";
 
 function App() {
-  return (
-    <div className="App">
-      <header>
-      <ResponsiveAppBar/>
-      </header>
-      <main>
-        <JokeList/>
-      </main>
-    </div>
-  );
+   const [showAuthModal, setShowAuthModal] = useState(false);
+
+   return (
+      <div className="App">
+         <header>
+            <Navbar setShowAuthModal={setShowAuthModal}/>
+         </header>
+         <main className="main">
+            <AuthModal showAuthModal={showAuthModal} setShowAuthModal={setShowAuthModal} />
+            <AddJoke />
+            <JokeCardList />
+         </main>
+      </div>
+   );
 }
 
 export default App;

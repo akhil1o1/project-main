@@ -1,1 +1,8 @@
+.main{
+    padding-block: 3%;
+    padding-inline: 5%;
+}
 
+.MuiFormControl-root{
+    border-radius: 5px;
+}
