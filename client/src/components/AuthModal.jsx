@@ -10,9 +10,8 @@ import {
    TextField,
 } from "@mui/material";
 
-function AuthModal({showAuthModal, setShowAuthModal}) {
-   
-   const [loginMode, setLoginMode] = useState(true);
+function AuthModal({ showAuthModal, setShowAuthModal }) {
+   const [isLoginMode, setLoginMode] = useState(true);
 
    const handleClose = () => {
       setShowAuthModal(false);
@@ -32,10 +31,10 @@ function AuthModal({showAuthModal, setShowAuthModal}) {
          <DialogTitle
             sx={{ fontSize: "2rem", fontWeight: 600, color: "#1976d2" }}
          >
-            {loginMode ? "Login" : "Signup"}
+            {isLoginMode ? "Login" : "Signup"}
          </DialogTitle>
          <DialogContent sx={{ my: "1rem", color: "#1976d2" }}>
-            {!loginMode && (
+            {!isLoginMode && (
                <Box mb="1.5rem">
                   <Typography>Name</Typography>
                   <TextField
@@ -64,6 +63,9 @@ function AuthModal({showAuthModal, setShowAuthModal}) {
                   placeholder="Enter your password"
                />
             </Box>
+            <Button size="large" variant="contained">
+               {isLoginMode ? "Login" : "SignUp"}
+            </Button>
          </DialogContent>
          <DialogActions
             sx={{
@@ -71,11 +73,11 @@ function AuthModal({showAuthModal, setShowAuthModal}) {
                py: "1rem",
                flexDirection: "row",
                justifyContent: "flex-start",
-               backgroundColor: "#f5efef",
+               backgroundColor: "#e7ebf0",
             }}
          >
             <Typography color="#1976d2">
-               {loginMode
+               {isLoginMode
                   ? "Don't have an account"
                   : "Already have an account?"}
             </Typography>
@@ -88,7 +90,7 @@ function AuthModal({showAuthModal, setShowAuthModal}) {
                }}
                variant="text"
             >
-               {loginMode ? "Sign UP" : "Log IN"}
+               {isLoginMode ? "Sign UP" : "Log IN"}
             </Button>
          </DialogActions>
       </Dialog>

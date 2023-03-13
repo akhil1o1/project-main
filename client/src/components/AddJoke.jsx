@@ -18,6 +18,8 @@ function AddJoke() {
             flexDirection="row"
             alignItems="baseline"
             justifyContent="space-around"
+            width="60%"
+            mx="auto"
             gap={3}
          >
             <TextField
