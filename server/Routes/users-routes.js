@@ -11,7 +11,6 @@ router.post(
     body("name").trim().not().isEmpty(),
     body("email").trim().normalizeEmail().isEmail(), // normalize email => Test@test.com => test@test.com
     body("password").trim().isLength({ min: 6 }),
-    body("role").trim().not().isEmpty(),
   ],
   signup
 );
