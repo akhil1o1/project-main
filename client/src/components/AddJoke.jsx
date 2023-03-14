@@ -1,6 +1,20 @@
+import { useState } from "react";
 import { TextField, Box, Typography, Button } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
+
+import { useHttpClient } from "./hooks/http-hook";
+import { AuthContext } from "./context/auth-context.js";
+
 function AddJoke() {
+   const [newJoke, setNewJoke] = useState("");
+
+   const inputHandler = (event) => {
+      const { value } = event.target;
+      setNewJoke(value.trim());
+   };
+
+   console.log(newJoke);
+
    return (
       <>
          <Typography
@@ -13,6 +27,7 @@ function AddJoke() {
          >
             Add New Joke
          </Typography>
+         <form>
          <Box
             display="flex"
             flexDirection="row"
@@ -27,13 +42,17 @@ function AddJoke() {
                label="Enter new joke"
                variant="outlined"
                multiline
+               required
+               value={newJoke}
                fullWidth
+               onChange={inputHandler}
                sx={{ mb: "2rem" }}
             />
-            <Button size="large" variant="contained" endIcon={<AddIcon />}>
+            <Button type="submit" size="large" variant="contained" endIcon={<AddIcon />}>
                Add
             </Button>
          </Box>
+         </form>
       </>
    );
 }

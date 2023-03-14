@@ -9,6 +9,7 @@ const userSchema = new mongoose.Schema({
    email: {
       type: String,
       required: true,
+      index: true,
       unique: true,
    },
    password: {
@@ -21,7 +22,7 @@ const userSchema = new mongoose.Schema({
       required: true,
       default: "user"
    },
-   jokes: [{ type: mongoose.Types.ObjectId, required: true, ref: "Joke" }], //an array of documents. with every document having a type of mongoose ObjectId(id of the related Joke document). Making relation to Joke model
+   jokes: [{ type: mongoose.Types.ObjectId,  ref: "Joke" }], //an array of documents. with every document having a type of mongoose ObjectId(id of the related Joke document). Making relation to Joke model
 });
 
 userSchema.plugin(uniqueValidator); /// to validate emails and prevent email duplication for users

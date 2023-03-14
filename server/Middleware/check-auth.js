@@ -17,7 +17,8 @@ const checkAuth = (req, res, next) => {
       }
 
       const decodedToken = jwt.verify(token, process.env.JWT_TOKEN_KEY); //verifies if the token recieved is valid and returns the data(string/object) encoded in token in signup/login controllers.
-      req.userId = decodedToken.userId; // adding decodedUserId to request to be used in subsequent routes/controllers
+      req.userId = decodedToken.userId;// adding decodedUserId to request to be used in subsequent routes/controllers
+      req.userName = decodedToken.name; 
       next(); // forwarding req to subsequent routes
    } catch (error) {
       return next(new HttpError("Authentication failed!!!", 401));

@@ -27,6 +27,7 @@ app.use((error, req, res, next) => {
    });
 });
 
+mongoose.set("strictQuery", false);
 mongoose
    .connect(process.env.MONGODB_URI)
    .then(() => {

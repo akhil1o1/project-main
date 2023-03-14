@@ -5,6 +5,10 @@ const jokeSchema = new mongoose.Schema({
       type: String,
       required: true,
    },
+   creatorName: {
+      type: String,
+      required: true,
+   },
    creator: {
       type: mongoose.Types.ObjectId,
       required: true,

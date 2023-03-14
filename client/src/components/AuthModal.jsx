@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import {
    Dialog,
    DialogTitle,
@@ -10,62 +10,139 @@ import {
    TextField,
 } from "@mui/material";
 
-function AuthModal({ showAuthModal, setShowAuthModal }) {
-   const [isLoginMode, setLoginMode] = useState(true);
+import { useHttpClient } from "./hooks/http-hook";
+import { AuthContext } from "./context/auth-context.js";
 
-   const handleClose = () => {
-      setShowAuthModal(false);
+function AuthModal() {
+   const [isLoginMode, setLoginMode] = useState(true);
+   const [formState, setFormState] = useState({
+      name: "",
+      email: "",
+      password: "",
+   });
+   const { isLoading, error, sendRequest, clearError } = useHttpClient();
+
+   const authCtx = useContext(AuthContext);
+   const { isLoggedIn, logIn } = authCtx;
+
+   const inputHandler = (event) => {
+      const { name, value } = event.target;
+      setFormState((prevFormState) => {
+         return {
+            ...prevFormState,
+            [name]: value.trim(),
+         };
+      });
    };
 
    const handleAuthMode = () => {
       setLoginMode((prev) => !prev);
    };
 
+   const authSubmitHandler = async (event) => {
+      event.preventDefault();
+      if (isLoginMode) {
+         //log in request
+         try {
+            const responseData = await sendRequest(
+               `http://localhost:5000/api/users/login`,
+               {
+                  method: "POST",
+                  headers: { "Content-type": "Application/json" },
+                  body: JSON.stringify({
+                     email: formState.email,
+                     password: formState.password,
+                  }),
+               }
+            );
+
+            logIn(
+               responseData.userId,
+               responseData.token,
+               responseData.name,
+               responseData.role
+            ); // jwt token for auth
+         } catch (error) {}
+      } else {
+         //sign up request.
+         try {
+            const responseData = await sendRequest(
+               `http://localhost:5000/api/users/signup`,
+               {
+                  method: "POST",
+                  headers: { "Content-type": "Application/json" },
+                  body: JSON.stringify({
+                     name: formState.name,
+                     email: formState.email,
+                     password: formState.password,
+                  }),
+               }
+            );
+
+            logIn(
+               responseData.userId,
+               responseData.token,
+               responseData.name,
+               responseData.role
+            ); // jwt token for auth
+         } catch (error) {}
+      }
+   };
+
    return (
-      <Dialog
-         open={showAuthModal}
-         onClose={handleClose}
-         maxWidth="xs"
-         fullWidth
-      >
+      <Dialog open={!isLoggedIn} maxWidth="xs" fullWidth>
          <DialogTitle
             sx={{ fontSize: "2rem", fontWeight: 600, color: "#1976d2" }}
          >
             {isLoginMode ? "Login" : "Signup"}
          </DialogTitle>
          <DialogContent sx={{ my: "1rem", color: "#1976d2" }}>
-            {!isLoginMode && (
+            <form onSubmit={authSubmitHandler}>
+               {!isLoginMode && (
+                  <Box mb="1.5rem">
+                     <Typography>Name</Typography>
+                     <TextField
+                        type="simple"
+                        fullWidth
+                        placeholder="Enter your Name"
+                        name="name"
+                        value={formState.name}
+                        required
+                        onChange={inputHandler}
+                     />
+                  </Box>
+               )}
+
                <Box mb="1.5rem">
-                  <Typography>Name</Typography>
+                  <Typography>Email</Typography>
                   <TextField
-                     type="simple"
+                     type="email"
+                     inputType="email"
                      fullWidth
-                     placeholder="Enter your Name"
+                     placeholder="Enter your Email"
+                     name="email"
+                     value={formState.email}
+                     required
+                     onChange={inputHandler}
                   />
                </Box>
-            )}
-
-            <Box mb="1.5rem">
-               <Typography>Email</Typography>
-               <TextField
-                  type="simple"
-                  inputType="email"
-                  fullWidth
-                  placeholder="Enter your Email"
-               />
-            </Box>
-            <Box mb="1.5rem">
-               <Typography>Password</Typography>
-               <TextField
-                  type="simple"
-                  inputType="password"
-                  fullWidth
-                  placeholder="Enter your password"
-               />
-            </Box>
-            <Button size="large" variant="contained">
-               {isLoginMode ? "Login" : "SignUp"}
-            </Button>
+               <Box mb="1.5rem">
+                  <Typography>Password</Typography>
+                  <TextField
+                     type="password"
+                     inputType="password"
+                     fullWidth
+                     placeholder="Enter your password (min 6 charecters)"
+                     name="password"
+                     value={formState.password}
+                     required
+                     onChange={inputHandler}
+                  />
+               </Box>
+               <Button type="submit" size="large" variant="contained">
+                  {isLoginMode ? "Login" : "SignUp"}
+               </Button>
+            </form>
          </DialogContent>
          <DialogActions
             sx={{

@@ -12,7 +12,7 @@ const router = Router();
 
 router.get("/jokes", getJokes);
 
-router.use(checkAuth); // middleware to check authentication and protect subsequent routes.
+// router.use(checkAuth); // middleware to check authentication and protect subsequent routes.
 
 router.post(
    "/jokes",

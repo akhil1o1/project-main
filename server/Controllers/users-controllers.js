@@ -25,7 +25,7 @@ export const signup = async (req, res, next) => {
       userAlreadyExists = await User.findOne({ email: email });
    } catch (error) {
       return next(
-         new HttpError("Signing up failed, please try again later.", 500)
+         new HttpError("Signing up failed, please try again later 1.", 500)
       );
    }
 
@@ -41,7 +41,7 @@ export const signup = async (req, res, next) => {
       hashedPassword = await bcrypt.hash(password, 6);
    } catch (error) {
       return next(
-         new HttpError("Signing up failed, please try again later.", 500)
+         new HttpError("Signing up failed, please try again later 2.", 500)
       );
    }
 
@@ -56,8 +56,9 @@ export const signup = async (req, res, next) => {
    try {
       createdUser = await newUser.save();
    } catch (error) {
+      console.log(error);
       return next(
-         new HttpError("Signing up failed. Please try again later.", 500)
+         new HttpError("Signing up failed. Please try again later 3.", 500)
       );
    }
 
@@ -65,20 +66,25 @@ export const signup = async (req, res, next) => {
    try {
       //creating jwt token
       token = jwt.sign(
-         { userId: createdUser.id, email: createdUser.email }, // data to be encoded in token
+         {
+            userId: createdUser.id,
+            email: createdUser.email,
+            name: createdUser.name,
+         }, // data to be encoded in token
          process.env.JWT_TOKEN_KEY, // secret string/key
          { expiresIn: "1h" } // token expiration time
       );
    } catch (error) {
       return next(
-         new HttpError("Signing up failed. Please try again later.", 500)
+         new HttpError("Signing up failed. Please try again later 4.", 500)
       );
    }
 
    res.status(201).json({
       userId: createdUser.id,
       email: createdUser.email,
-      role: matchedUser.role,
+      name: createdUser.name,
+      role: createdUser.role,
       token,
    }); // sending token along with other data.
 };
@@ -120,7 +126,11 @@ export const login = async (req, res, next) => {
    let token;
    try {
       token = jwt.sign(
-         { userId: matchedUser.id, email: matchedUser.email },
+         {
+            userId: matchedUser.id,
+            email: matchedUser.email,
+            name: matchedUser.name,
+         },
          process.env.JWT_TOKEN_KEY,
          { expiresIn: "1h" }
       );
@@ -131,6 +141,7 @@ export const login = async (req, res, next) => {
    res.json({
       userId: matchedUser.id,
       email: matchedUser.email,
+      name: matchedUser.name,
       role: matchedUser.role,
       token,
    });

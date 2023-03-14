@@ -1,9 +1,15 @@
+import { useContext } from "react";
 import { AppBar, Toolbar, Typography, Button, Container } from "@mui/material";
 import EmojiEmotionsIcon from "@mui/icons-material/EmojiEmotions";
 
+import { AuthContext } from "./context/auth-context";
+
 function Navbar({ setShowAuthModal }) {
-   const handleClickOpen = () => {
-      setShowAuthModal(true);
+   const authCtx = useContext(AuthContext);
+   const { logOut } = authCtx;
+
+   const logOutHandler = () => {
+      logOut();
    };
 
    return (
@@ -48,11 +54,12 @@ function Navbar({ setShowAuthModal }) {
                   JOKE APP
                </Typography>
                <Button
-                  onClick={handleClickOpen}
+                  onClick={logOutHandler}
+                  // onClick={() => setShowAuthModal(true)}
                   variant="outlined"
                   sx={{ color: "#fff" }}
                >
-                  LogIn
+                  LOGOUT
                </Button>
             </Toolbar>
          </Container>
