@@ -9,6 +9,7 @@ import {
    Button,
    TextField,
 } from "@mui/material";
+import LoadingButton from "@mui/lab/LoadingButton";
 
 import { useHttpClient } from "./hooks/http-hook";
 import { AuthContext } from "./context/auth-context.js";
@@ -24,14 +25,23 @@ function AuthModal() {
 
    const authCtx = useContext(AuthContext);
    const { isLoggedIn, logIn } = authCtx;
+   console.log("isLoggedIn", isLoggedIn);
 
    const inputHandler = (event) => {
       const { name, value } = event.target;
       setFormState((prevFormState) => {
          return {
             ...prevFormState,
-            [name]: value.trim(),
+            [name]: value,
          };
+      });
+   };
+
+   const clearInputs = () => {
+      setFormState({
+         name: "",
+         email: "",
+         password: "",
       });
    };
 
@@ -50,8 +60,8 @@ function AuthModal() {
                   method: "POST",
                   headers: { "Content-type": "Application/json" },
                   body: JSON.stringify({
-                     email: formState.email,
-                     password: formState.password,
+                     email: formState.email.trim(),
+                     password: formState.password.trim(),
                   }),
                }
             );
@@ -72,9 +82,9 @@ function AuthModal() {
                   method: "POST",
                   headers: { "Content-type": "Application/json" },
                   body: JSON.stringify({
-                     name: formState.name,
-                     email: formState.email,
-                     password: formState.password,
+                     name: formState.name.trim(),
+                     email: formState.email.trim(),
+                     password: formState.password.trim(),
                   }),
                }
             );
@@ -86,6 +96,10 @@ function AuthModal() {
                responseData.role
             ); // jwt token for auth
          } catch (error) {}
+      }
+
+      if(!error) {
+         clearInputs();
       }
    };
 
@@ -139,9 +153,15 @@ function AuthModal() {
                      onChange={inputHandler}
                   />
                </Box>
-               <Button type="submit" size="large" variant="contained">
+               <LoadingButton
+                  loading={isLoading}
+                  loadingIndicator={isLoginMode ? "Logging" : "Signing"}
+                  variant="contained"
+                  type="submit"
+                  size="large"
+               >
                   {isLoginMode ? "Login" : "SignUp"}
-               </Button>
+               </LoadingButton>
             </form>
          </DialogContent>
          <DialogActions

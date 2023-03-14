@@ -8,7 +8,7 @@ const router = Router();
 router.post(
   "/signup",
   [
-    body("name").trim().not().isEmpty(),
+    body("name").trim().toLowerCase().not().isEmpty(),
     body("email").trim().normalizeEmail().isEmail(), // normalize email => Test@test.com => test@test.com
     body("password").trim().isLength({ min: 6 }),
   ],

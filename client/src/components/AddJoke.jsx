@@ -1,19 +1,45 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { TextField, Box, Typography, Button } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
+import LoadingButton from "@mui/lab/LoadingButton";
 
 import { useHttpClient } from "./hooks/http-hook";
 import { AuthContext } from "./context/auth-context.js";
 
-function AddJoke() {
+function AddJoke({ setJokes }) {
    const [newJoke, setNewJoke] = useState("");
+
+   const { isLoading, error, sendRequest, clearError } = useHttpClient();
+   const authCtx = useContext(AuthContext);
+   const { token } = authCtx;
 
    const inputHandler = (event) => {
       const { value } = event.target;
-      setNewJoke(value.trim());
+      setNewJoke(value);
    };
 
    console.log(newJoke);
+
+   const jokeSubmitHandler = async (event) => {
+      event.preventDefault();
+      try {
+         const responseData = await sendRequest(
+            `http://localhost:5000/api/jokes/newJoke`,
+            {
+               method: "POST",
+               headers: {
+                  "Content-type": "Application/json",
+                  authorization: `Bearer ${token}`,
+               },
+               body: JSON.stringify({
+                  text: newJoke.trim(),
+               }),
+            }
+         );
+         setJokes((prevJokes) => [...prevJokes, responseData.joke]);
+         setNewJoke("");
+      } catch (error) {}
+   };
 
    return (
       <>
@@ -27,31 +53,38 @@ function AddJoke() {
          >
             Add New Joke
          </Typography>
-         <form>
-         <Box
-            display="flex"
-            flexDirection="row"
-            alignItems="baseline"
-            justifyContent="space-around"
-            width="60%"
-            mx="auto"
-            gap={3}
-         >
-            <TextField
-               id="outlined-basic"
-               label="Enter new joke"
-               variant="outlined"
-               multiline
-               required
-               value={newJoke}
-               fullWidth
-               onChange={inputHandler}
-               sx={{ mb: "2rem" }}
-            />
-            <Button type="submit" size="large" variant="contained" endIcon={<AddIcon />}>
-               Add
-            </Button>
-         </Box>
+         <form onSubmit={jokeSubmitHandler}>
+            <Box
+               display="flex"
+               flexDirection="row"
+               alignItems="baseline"
+               justifyContent="space-around"
+               width="60%"
+               mx="auto"
+               gap={3}
+            >
+               <TextField
+                  id="outlined-basic"
+                  label="Enter new joke"
+                  variant="outlined"
+                  multiline
+                  required
+                  value={newJoke}
+                  fullWidth
+                  onChange={inputHandler}
+                  sx={{ mb: "2rem" }}
+               />
+               <LoadingButton
+                  type="submit"
+                  size="large"
+                  endIcon={<AddIcon />}
+                  loading={isLoading}
+                  loadingPosition="end"
+                  variant="contained"
+               >
+                  Add
+               </LoadingButton>
+            </Box>
          </form>
       </>
    );

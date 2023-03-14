@@ -31,6 +31,10 @@ export const createJoke = async (req, res, next) => {
    const creator = req.userId; // currently logged in user's id
    const creatorName = req.userName; // currently logged in user's name
 
+   console.log("creator", creator);
+   console.log("creatorName", creatorName);
+
+
    const newJoke = new Joke({
       text,
       creatorName,

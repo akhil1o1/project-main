@@ -12,7 +12,7 @@ import EditIcon from "@mui/icons-material/Edit";
 
 import emoticon from "./assets/emoticon.png";
 
-function JokeCard() {
+function JokeCard({joke, setJokes}) {
    return (
       <Card variant="outlined" sx={{ maxWidth: 345 }}>
          <CardMedia
@@ -22,12 +22,11 @@ function JokeCard() {
             image={emoticon}
          />
          <CardContent>
-            <Typography gutterBottom variant="h5" component="div">
-               Joke
+            <Typography gutterBottom fontWeight="bold" component="div">
+               {`Posted by ${joke.creatorName}`}
             </Typography>
             <Typography variant="body2" color="text.secondary">
-               Lizards are a widespread group of squamate reptiles, with over
-               6,000 species, ranging across all continents except Antarctica
+               {joke.text}
             </Typography>
          </CardContent>
          <CardActions>
