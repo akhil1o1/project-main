@@ -1,5 +1,5 @@
 import { useState, useContext } from "react";
-import { TextField, Box, Typography, Button } from "@mui/material";
+import { TextField, Box, Typography, Alert, AlertTitle } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import LoadingButton from "@mui/lab/LoadingButton";
 
@@ -53,6 +53,12 @@ function AddJoke({ setJokes }) {
          >
             Add New Joke
          </Typography>
+         {error && !isLoading && (
+                  <Alert severity="error" onClose={clearError} sx={{mb:"1.5rem"}}>
+                     <AlertTitle>Error</AlertTitle>
+                     {error}
+                  </Alert>
+               )}
          <form onSubmit={jokeSubmitHandler}>
             <Box
                display="flex"

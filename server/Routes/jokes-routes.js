@@ -17,7 +17,7 @@ router.use(checkAuth); // middleware to check authentication and protect subsequ
 router.post(
    "/newJoke",
    [
-      body("text").trim().not().isEmpty(), // middlewares to validate requests
+      body("text").trim().not().isEmpty(), // middlewares to validate requests data
    ],
    createJoke
 );

@@ -8,6 +8,8 @@ import {
    Box,
    Button,
    TextField,
+   Alert,
+   AlertTitle,
 } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 
@@ -25,7 +27,7 @@ function AuthModal() {
 
    const authCtx = useContext(AuthContext);
    const { isLoggedIn, logIn } = authCtx;
-   console.log("isLoggedIn", isLoggedIn);
+   // console.log("isLoggedIn", isLoggedIn);
 
    const inputHandler = (event) => {
       const { name, value } = event.target;
@@ -71,7 +73,8 @@ function AuthModal() {
                responseData.token,
                responseData.name,
                responseData.role
-            ); // jwt token for auth
+            );
+            clearInputs();
          } catch (error) {}
       } else {
          //sign up request.
@@ -94,12 +97,9 @@ function AuthModal() {
                responseData.token,
                responseData.name,
                responseData.role
-            ); // jwt token for auth
+            );
+            clearInputs();
          } catch (error) {}
-      }
-
-      if(!error) {
-         clearInputs();
       }
    };
 
@@ -111,6 +111,16 @@ function AuthModal() {
             {isLoginMode ? "Login" : "Signup"}
          </DialogTitle>
          <DialogContent sx={{ my: "1rem", color: "#1976d2" }}>
+            {error && !isLoading && (
+               <Alert
+                  severity="error"
+                  onClose={clearError}
+                  sx={{ mb: "1.5rem" }}
+               >
+                  <AlertTitle>Error</AlertTitle>
+                  {error}
+               </Alert>
+            )}
             <form onSubmit={authSubmitHandler}>
                {!isLoginMode && (
                   <Box mb="1.5rem">
@@ -131,7 +141,6 @@ function AuthModal() {
                   <Typography>Email</Typography>
                   <TextField
                      type="email"
-                     inputType="email"
                      fullWidth
                      placeholder="Enter your Email"
                      name="email"
@@ -144,7 +153,6 @@ function AuthModal() {
                   <Typography>Password</Typography>
                   <TextField
                      type="password"
-                     inputType="password"
                      fullWidth
                      placeholder="Enter your password (min 6 charecters)"
                      name="password"

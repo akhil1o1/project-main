@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Alert, AlertTitle } from "@mui/material";
 import Navbar from "./components/Navbar";
 import JokeCardList from "./components/JokeCardList";
 import AddJoke from "./components/AddJoke";
@@ -10,29 +11,37 @@ import { useHttpClient } from "./components/hooks/http-hook";
 
 import "./App.css";
 
-console.log(localStorage.getItem("userData"));
 
 function App() {
    const [jokes, setJokes] = useState([]);
    const { token, logIn, logOut, userId, userName, userRole } = useAuth();
-
    const { isLoading, error, sendRequest, clearError } = useHttpClient();
 
    useEffect(() => {
       //fetching jokes uploaded by user.
       const fetchJokes = async () => {
          try {
-            const responseData = await sendRequest(`http://localhost:5000/api/jokes`,);
+            const responseData = await sendRequest(
+               `http://localhost:5000/api/jokes`
+            );
             setJokes(responseData.jokes);
          } catch (error) {}
       };
 
       fetchJokes();
-   }, [sendRequest, userId,]);
+   }, [sendRequest, userId]);
 
    return (
       <AuthContext.Provider
-         value={{ isLoggedIn: !!token, token, logIn, logOut, userId, userName, userRole}} // !!token => if token is undefined/null evaluates to false and else if token is defined evaluates to true
+         value={{
+            isLoggedIn: !!token,
+            token,
+            logIn,
+            logOut,
+            userId,
+            userName,
+            userRole,
+         }} // !!token => if token is undefined/null evaluates to false and else if token is defined evaluates to true
       >
          <div className="App">
             <header>
@@ -41,8 +50,16 @@ function App() {
             <main className="main">
                <AuthModal />
                <AddJoke setJokes={setJokes} />
-               {isLoading && <Loader/>}
-               {!isLoading && <JokeCardList jokes={jokes} setJokes={setJokes}/>}
+               {error && !isLoading && (
+                  <Alert severity="error" onClose={clearError}>
+                     <AlertTitle>Error</AlertTitle>
+                     {error}
+                  </Alert>
+               )}
+               {isLoading && <Loader />}
+               {!isLoading && (
+                  <JokeCardList jokes={jokes} setJokes={setJokes} />
+               )}
             </main>
          </div>
       </AuthContext.Provider>

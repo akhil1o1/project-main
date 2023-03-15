@@ -34,7 +34,6 @@ export const createJoke = async (req, res, next) => {
    console.log("creator", creator);
    console.log("creatorName", creatorName);
 
-
    const newJoke = new Joke({
       text,
       creatorName,
