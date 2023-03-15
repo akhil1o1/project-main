@@ -35,7 +35,7 @@ function Features() {
             6. User can edit/delete jokes posted by him.
          </Typography>
          <Typography my="0.5rem" color="#132d47">
-            7. Admin can delete jokes posted by him as well as any user.
+            7. Admin can delete jokes posted any user.
          </Typography>
          <Typography my="0.5rem" color="#132d47">
             8. This web app has proper client and server side
