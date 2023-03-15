@@ -56,7 +56,7 @@ function AuthModal() {
          //log in request
          try {
             const responseData = await sendRequest(
-               `http://localhost:5000/api/users/login`,
+               `https://joke-app-backend-production.up.railway.app/api/users/login`,
                {
                   method: "POST",
                   headers: { "Content-type": "Application/json" },
@@ -79,7 +79,7 @@ function AuthModal() {
          //sign up request.
          try {
             const responseData = await sendRequest(
-               `http://localhost:5000/api/users/signup`,
+               `https://joke-app-backend-production.up.railway.app/api/users/signup`,
                {
                   method: "POST",
                   headers: { "Content-type": "Application/json" },
@@ -173,8 +173,12 @@ function AuthModal() {
             <Typography my="1rem" color="#132d47">
                Use following credentials to login as Admin:-
             </Typography>
-            <Typography my="0.5rem" color="#132d47">Email: akhil@gmail.com</Typography>
-            <Typography my="0.5rem" color="#132d47">Password: akhil123</Typography>
+            <Typography my="0.5rem" color="#132d47">
+               Email: akhil@gmail.com
+            </Typography>
+            <Typography my="0.5rem" color="#132d47">
+               Password: akhil123
+            </Typography>
          </DialogContent>
          <DialogActions
             sx={{

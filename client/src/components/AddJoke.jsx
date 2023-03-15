@@ -24,7 +24,7 @@ function AddJoke({ setJokes }) {
       event.preventDefault();
       try {
          const responseData = await sendRequest(
-            `http://localhost:5000/api/jokes/newJoke`,
+            `https://joke-app-backend-production.up.railway.app/api/jokes/newJoke`,
             {
                method: "POST",
                headers: {

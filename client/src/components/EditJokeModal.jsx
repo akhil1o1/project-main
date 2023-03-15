@@ -36,7 +36,7 @@ function EditJokeModal({ joke, setJokes, editMode, setEditMode }) {
       event.preventDefault();
       try {
          const responseData = await sendRequest(
-            `http://localhost:5000/api/jokes/editJoke/${joke.id}`,
+            `https://joke-app-backend-production.up.railway.app/api/jokes/editJoke/${joke.id}`,
             {
                method: "PATCH",
                headers: {

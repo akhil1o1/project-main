@@ -33,7 +33,7 @@ function JokeCard({ joke, setJokes }) {
    const deleteJokeHandler = async (event) => {
       try {
          await sendRequest(
-            `http://localhost:5000/api/jokes/deleteJoke/${joke.id}`,
+            `https://joke-app-backend-production.up.railway.app/api/jokes/deleteJoke/${joke.id}`,
             {
                method: "DELETE",
                headers: {

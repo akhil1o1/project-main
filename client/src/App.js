@@ -12,7 +12,6 @@ import { useHttpClient } from "./components/hooks/http-hook";
 
 import "./App.css";
 
-
 function App() {
    const [jokes, setJokes] = useState([]);
    const { token, logIn, logOut, userId, userName, userRole } = useAuth();
@@ -23,12 +22,11 @@ function App() {
       const fetchJokes = async () => {
          try {
             const responseData = await sendRequest(
-               `http://localhost:5000/api/jokes`
+               `https://joke-app-backend-production.up.railway.app/api/jokes`
             );
             setJokes(responseData.jokes);
          } catch (error) {}
       };
-
       fetchJokes();
    }, [sendRequest, userId]);
 
@@ -61,7 +59,7 @@ function App() {
                {!isLoading && (
                   <JokeCardList jokes={jokes} setJokes={setJokes} />
                )}
-               <Features/>
+               <Features />
             </main>
          </div>
       </AuthContext.Provider>
