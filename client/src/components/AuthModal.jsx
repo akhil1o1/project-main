@@ -27,7 +27,6 @@ function AuthModal() {
 
    const authCtx = useContext(AuthContext);
    const { isLoggedIn, logIn } = authCtx;
-   // console.log("isLoggedIn", isLoggedIn);
 
    const inputHandler = (event) => {
       const { name, value } = event.target;
@@ -171,6 +170,11 @@ function AuthModal() {
                   {isLoginMode ? "Login" : "SignUp"}
                </LoadingButton>
             </form>
+            <Typography my="1rem" color="#132d47">
+               Use following credentials to login as Admin:-
+            </Typography>
+            <Typography my="0.5rem" color="#132d47">Email: akhil@gmail.com</Typography>
+            <Typography my="0.5rem" color="#132d47">Password: akhil123</Typography>
          </DialogContent>
          <DialogActions
             sx={{

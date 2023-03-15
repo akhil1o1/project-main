@@ -4,6 +4,7 @@ import Navbar from "./components/Navbar";
 import JokeCardList from "./components/JokeCardList";
 import AddJoke from "./components/AddJoke";
 import AuthModal from "./components/AuthModal";
+import Features from "./components/Features";
 import Loader from "./components/Loader";
 import { AuthContext } from "./components/context/auth-context";
 import { useAuth } from "./components/hooks/auth-hook";
@@ -60,6 +61,7 @@ function App() {
                {!isLoading && (
                   <JokeCardList jokes={jokes} setJokes={setJokes} />
                )}
+               <Features/>
             </main>
          </div>
       </AuthContext.Provider>

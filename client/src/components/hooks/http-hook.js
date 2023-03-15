@@ -13,7 +13,7 @@ export const useHttpClient = () => {
       setIsLoading(true);
       const response = await fetch(url, options);
       const responseData = await response.json();
-      console.log(responseData);
+      // console.log(responseData);
       
       if (!response.ok) {
         throw new Error(responseData.message); //error message will come from backend.

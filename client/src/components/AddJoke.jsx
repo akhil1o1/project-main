@@ -45,8 +45,9 @@ function AddJoke({ setJokes }) {
       <>
          <Typography
             variant="h1"
-            fontSize="2.5rem"
-            mb="2rem"
+            fontSize={{ xs: "1.8rem", sm: "2.5rem" }}
+            mb={{ xs: "1rem", sm: "2rem" }}
+            mt={{ xs: "1rem", sm: "none" }}
             fontWeight="600"
             textAlign="center"
             color="#1976d2"
@@ -54,20 +55,21 @@ function AddJoke({ setJokes }) {
             Add New Joke
          </Typography>
          {error && !isLoading && (
-                  <Alert severity="error" onClose={clearError} sx={{mb:"1.5rem"}}>
-                     <AlertTitle>Error</AlertTitle>
-                     {error}
-                  </Alert>
-               )}
+            <Alert severity="error" onClose={clearError} sx={{ mb: "1.5rem" }}>
+               <AlertTitle>Error</AlertTitle>
+               {error}
+            </Alert>
+         )}
          <form onSubmit={jokeSubmitHandler}>
             <Box
                display="flex"
-               flexDirection="row"
+               flexDirection={{ xs: "column", sm: "row", md: "row" }}
                alignItems="baseline"
                justifyContent="space-around"
-               width="60%"
+               width={{ xs: "100%", sm: "80%", md: "60%" }}
                mx="auto"
-               gap={3}
+               py={{ xs: "1.5rem", sm: "1rem" }}
+               gap={{ xs: 1, sm: 2, md: 3 }}
             >
                <TextField
                   id="outlined-basic"
@@ -83,6 +85,13 @@ function AddJoke({ setJokes }) {
                <LoadingButton
                   type="submit"
                   size="large"
+                  sx={{
+                     alignSelf: {
+                        xs: "center",
+                        sm: "baseline",
+                        md: "baseline",
+                     },
+                  }}
                   endIcon={<AddIcon />}
                   loading={isLoading}
                   loadingPosition="end"
