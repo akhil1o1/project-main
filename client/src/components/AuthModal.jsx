@@ -203,7 +203,7 @@ function AuthModal() {
                }}
                variant="text"
             >
-               {isLoginMode ? "Sign UP" : "Log IN"}
+               {isLoginMode ? "Signup" : "Login"}
             </Button>
          </DialogActions>
       </Dialog>
